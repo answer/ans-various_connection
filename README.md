@@ -2,6 +2,8 @@
 
 複数の DB 接続を動的に生成する
 
+当然 DB 接続は膨れ上がるが、各接続ごとに同様の ActiveRecord を使用することができる
+
 ## Installation
 
 Add this line to your application's Gemfile:

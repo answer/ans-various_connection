@@ -20,7 +20,7 @@ Or install it yourself as:
 
     # config/initializers/ans-various_connection.rb
     # 接続名のシンボル(小文字、 underscore)の配列を指定
-    Ans::VariousConnection.init_connections [:connection1,:connection2]
+    Ans::VariousConnection.establish_connections [:connection1,:connection2]
 
     # config/database.yml
     connection1_production:

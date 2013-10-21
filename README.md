@@ -61,6 +61,9 @@ Or install it yourself as:
     MyModel::Connection1.my_scope
     MyModel::Connection2.my_scope
 
+    MyModel.connections[:connection1].my_scope
+    MyModel.connections[:connection2].my_scope
+
 ### アソシエーションについて
 
 `for_all_connection` には、 `establish_connections` で指定した名前が渡される  

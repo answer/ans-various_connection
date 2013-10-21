@@ -52,7 +52,7 @@ module Ans
         end
         define_method :for_all_connection do |&block|
           sub_classes.each do |name,sub|
-            sub.class_eval &block
+            sub.class_exec name,&block
           end
         end
       end

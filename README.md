@@ -39,7 +39,8 @@ Or install it yourself as:
 
     class MyModel
       include Ans::VariousConnection
-      for_all_connection do
+      for_all_connection do |name|
+        belongs_to :my_sub_model, foreign_key: my_sub_model_id, class_name: MySubModel.connections[name]
 
         scope :my_scope, lambda{
           ...
@@ -59,6 +60,16 @@ Or install it yourself as:
 
     MyModel::Connection1.my_scope
     MyModel::Connection2.my_scope
+
+### アソシエーションについて
+
+`for_all_connection` には、 `establish_connections` で指定した名前が渡される  
+この名前を使用してアソシエーション先のクラスを指定する
+
+    belongs_to :my_sub_model, foreign_key: my_sub_model_id, class_name: MySubModel.connections[name]
+
+今のところ、 `foreign_key` と `class_name` を適切に指定しないといけない  
+また、この場合 `MySubModel` も `include Ans::VariousConnection` している必要がある
 
 ## Contributing
 

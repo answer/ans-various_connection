@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["sakai@ans-web.co.jp"]
   spec.description   = %q{同じ構成の複数の DB からデータを取得するためのメソッドを提供する}
   spec.summary       = %q{複数の接続を扱うメソッドを提供する}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/answer/ans-various_connection"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

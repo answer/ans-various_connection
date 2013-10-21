@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require "ans/various_connection/version"
 
 module Ans
@@ -11,13 +13,16 @@ module Ans
     end
     def self.establish_connection(name)
       name = name.to_sym
+
+      # Class.new のあと、すぐに定数に置かないと class_eval 時に内部で使いまわされる気がする
       base = Class.new(ActiveRecord::Base)
+      Ans::VariousConnection::ConnectionPool.const_set name.to_s.camelize, base
+      connection_bases[name] = base
+
       base.class_eval do
         self.abstract_class = true
         establish_connection :"#{name}_#{Rails.env}"
       end
-      connection_bases[name] = base
-      Ans::VariousConnection::ConnectionPool.const_set name.to_s.camelize, base
     end
     def self.connection_bases
       @connection_bases ||= {}
@@ -30,23 +35,24 @@ module Ans
 
       class_name = m.to_s
 
-      connection_classes = {}
+      sub_classes = {}
       Ans::VariousConnection.connection_bases.each do |name,connection_base|
-        connection_class = Class.new(connection_base)
-        connection_class.class_eval do
+        sub = Class.new(connection_base)
+        m.const_set name.to_s.camelize, sub
+        sub_classes[name] = sub
+
+        sub.class_eval do
           self.table_name = class_name.underscore.pluralize
         end
-        connection_classes[name] = connection_class
-        m.const_set name.to_s.camelize, connection_class
       end
 
       class_methods.class_eval do
         define_method :connections do
-          connection_classes
+          sub_classes
         end
         define_method :for_all_connection do |&block|
-          connection_classes.each do |name,connection_class|
-            connection_class.class_eval &block
+          sub_classes.each do |name,sub|
+            sub.class_eval &block
           end
         end
       end

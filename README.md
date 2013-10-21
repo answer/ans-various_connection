@@ -52,7 +52,7 @@ Or install it yourself as:
       end
     end
 
-    MyModel.connections.each do |connection|
+    MyModel.connections.each do |name,connection|
       connection.my_scope.each do |instance|
         instance.my_method
       end

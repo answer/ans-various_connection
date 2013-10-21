@@ -57,6 +57,7 @@ Or install it yourself as:
     MyModel.connections.each do |name,connection|
       connection.my_scope.each do |instance|
         instance.my_method
+        instance.my_sub_model
       end
     end
 

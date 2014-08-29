@@ -39,9 +39,12 @@ Or install it yourself as:
     connection2_test:
       # 接続 "connection2" の test 環境用設定
 
+    # app/models/my_model.rb
     class MyModel
       include Ans::VariousConnection
       for_all_connection do |name|
+        # for_all_connection のブロックの中に ActiveRecord のコンテキストで呼ばれるメソッドを記述
+
         belongs_to :my_sub_model, foreign_key: my_sub_model_id, class_name: MySubModel.connections[name]
 
         scope :my_scope, lambda{
@@ -54,6 +57,7 @@ Or install it yourself as:
       end
     end
 
+    # connections で全接続のハッシュを参照可能
     MyModel.connections.each do |name,connection|
       connection.my_scope.each do |instance|
         instance.my_method
@@ -61,11 +65,12 @@ Or install it yourself as:
       end
     end
 
+    # 各接続の参照は [] メソッドでも可能
+    MyModel[:connection1].my_scope
+
+    # 接続名の定数的な名前でクラスが定義される
     MyModel::Connection1.my_scope
     MyModel::Connection2.my_scope
-
-    MyModel.connections[:connection1].my_scope
-    MyModel.connections[:connection2].my_scope
 
 ### アソシエーションについて
 

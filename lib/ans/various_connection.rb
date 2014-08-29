@@ -50,6 +50,9 @@ module Ans
         define_method :connections do
           sub_classes
         end
+        define_method :[] do |key|
+          sub_classes[key]
+        end
         define_method :for_all_connection do |&block|
           sub_classes.each do |name,sub|
             sub.class_exec name,&block
